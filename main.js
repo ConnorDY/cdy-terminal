@@ -2,6 +2,7 @@ var txt;
 var typeSpeed = 25;
 var blinkSpeed = 300;
 var typePos = 0;
+var args = [];
 
 function init()
 {
@@ -71,26 +72,10 @@ function handleInput(event)
 		$("#termText").append("\n# " + input.val());
 
 		// process input
-		switch (input.val())
+		args = input.val().split(" ");
+
+		switch (args[0])
 		{
-			case "shutdown":
-				txt += "\nShutdown failed.";
-				typeWriter();
-				break;
-
-			case "reboot":
-				location.reload(true);
-				break;
-
-			case "help":
-				txt += "\nThere is no help.";
-				typeWriter();
-				break;
-
-			case "source":
-				window.location.href = "https://github.com/ConnorDY/cdy-terminal";
-				break;
-
 			case "clear":
 				$("#termText").html("");
 				txt = "";
@@ -103,8 +88,14 @@ function handleInput(event)
 				break;
 
 			default:
-				txt += "\nUnknown command: `" + input.val() + "`";
-				typeWriter();
+				$.loadScript("./bin/" + args[0] + ".js", () =>
+				{
+					loadedFunc();
+				}, () =>
+				{
+					txt += "\nCould not execute `" + args[0] + ".js` (Error 404: File not found)";
+					typeWriter();
+				});
 		}
 
 		// clear input
@@ -112,4 +103,15 @@ function handleInput(event)
 	}
 
 	handleTyping();
+}
+
+jQuery.loadScript = (url, callback, failed) =>
+{
+    jQuery.ajax({
+        url: url,
+        dataType: "script",
+        success: callback,
+        error: failed,
+        async: true
+    });
 }
