@@ -1,5 +1,9 @@
-function loadedFunc()
+function loadedFunc(params)
 {
-	txt += "\nThere is no help.";
+	txt += "\n";
+
+	if (params[1] == "me") txt += "You're on your own."; 
+	else txt += "There is no help.";
+
 	typeWriter();
 }

@@ -125,7 +125,7 @@ function evalCommand(input)
 		default:
 			$.loadScript("./bin/" + args[0] + ".js", () =>
 			{
-				loadedFunc();
+				loadedFunc(args);
 			}, () =>
 			{
 				txt += "\nCould not execute `" + args[0] + ".js` (Error 404: File not found)";
