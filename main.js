@@ -85,6 +85,7 @@ function evalCommand(input)
 {
 	args = input.split(" ");
 
+	// prevent users from running scripts outside  of the 'bin' directory
 	if (args[0].includes(".."))
 	{
 		txt += "\nPlease don't do that.";
