@@ -71,7 +71,13 @@ function handleInput(event)
 
 		// hide input field then display the input
 		$("#acceptInput").css("display", "none");
-		$("#termText").append("\n# " + input.val());
+		$("#acceptInput").html("\n# ");
+
+		var term = $("#termText");
+		if (term.html() != "") term.append("\n");
+		term.append("# " + input.val());
+
+
 
 		// process then clear input
 		evalCommand(input.val());
@@ -97,6 +103,7 @@ function evalCommand(input)
 	{
 		case "clear":
 			$("#termText").html("");
+			$("#acceptInput").html("# ");
 			txt = "";
 			typePos = 0;
 			typeWriter();
