@@ -1,16 +1,16 @@
-var txt;
+// settings
+var txt = "";
 var typeSpeed = 25;
 var blinkSpeed = 300;
 var typePos = 0;
 var args = [];
 
+// 'environment' variables
+var WELCOME_MESSAGE = " \nWelcome to my terminal.\nPlease enjoy your stay.\n:^)\n ";
+var BOOT_COMMAND = "echo $WELCOME_MESSAGE";
+
 function init()
 {
-	txt = $("#textToDisplay").text();
-	txt = txt.replace(/\t/g, ""); // remove tabs
-	txt = txt.substr(1, txt.length-2); // remove first and last newlines
-
-	setTimeout(typeWriter, 400);
 	setTimeout(blinkBlock, blinkSpeed);
 
 	$("#capInput").on("change paste keyup", handleTyping);
@@ -20,6 +20,8 @@ function init()
 	{
 		$("#capInput").focus();
 	});
+
+	bootFunc();
 }
 
 function typeWriter()
@@ -72,37 +74,61 @@ function handleInput(event)
 		$("#termText").append("\n# " + input.val());
 
 		// process input
-		args = input.val().split(" ");
-
-		switch (args[0])
-		{
-			case "clear":
-				$("#termText").html("");
-				txt = "";
-				typePos = 0;
-				typeWriter();
-				break;
-
-			case "":
-				typeWriter();
-				break;
-
-			default:
-				$.loadScript("./bin/" + args[0] + ".js", () =>
-				{
-					loadedFunc();
-				}, () =>
-				{
-					txt += "\nCould not execute `" + args[0] + ".js` (Error 404: File not found)";
-					typeWriter();
-				});
-		}
+		evalCommand(input.val());
 
 		// clear input
 		input.val("");
 	}
 
 	handleTyping();
+}
+
+function evalCommand(input)
+{
+	args = input.split(" ");
+
+	switch (args[0])
+	{
+		case "clear":
+			$("#termText").html("");
+			txt = "";
+			typePos = 0;
+			typeWriter();
+			break;
+
+		case "echo":
+			args.shift();
+			txt += "\n";
+			args.forEach((arg) =>
+			{
+				if (arg.charAt(0) == "$") txt += String(window[arg.substr(1)]);
+				else txt += arg;
+
+				txt += " ";
+			});
+			typeWriter();
+			break;
+
+		case "":
+			typeWriter();
+			break;
+
+		default:
+			$.loadScript("./bin/" + args[0] + ".js", () =>
+			{
+				loadedFunc();
+			}, () =>
+			{
+				txt += "\nCould not execute `" + args[0] + ".js` (Error 404: File not found)";
+				typeWriter();
+			});
+	}
+}
+
+function bootFunc()
+{
+	txt += BOOT_COMMAND;
+	evalCommand(BOOT_COMMAND);
 }
 
 jQuery.loadScript = (url, callback, failed) =>
