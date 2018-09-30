@@ -85,6 +85,13 @@ function evalCommand(input)
 {
 	args = input.split(" ");
 
+	if (args[0].includes(".."))
+	{
+		txt += "\nPlease don't do that.";
+		typeWriter();
+		return 0;
+	}
+
 	switch (args[0])
 	{
 		case "clear":
