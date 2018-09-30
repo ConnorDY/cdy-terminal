@@ -43,6 +43,9 @@ function typeWriter()
 	{
 		$("#acceptInput").css("display", "inline");
 		$("#capInput").focus();
+
+		txt = "";
+		typePos = 0;
 	}
 
 	// scroll to bottom
@@ -172,9 +175,14 @@ function print(p)
 	typeWriter();
 }
 
+function printBuffer(p)
+{
+	txt += p;
+}
+
 function bootFunc()
 {
-	txt += BOOT_COMMAND;
+	printBuffer(BOOT_COMMAND + "\n");
 	evalCommand(BOOT_COMMAND);
 }
 
