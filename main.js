@@ -73,10 +73,8 @@ function handleInput(event)
 		$("#acceptInput").css("display", "none");
 		$("#termText").append("\n# " + input.val());
 
-		// process input
+		// process then clear input
 		evalCommand(input.val());
-
-		// clear input
 		input.val("");
 	}
 
@@ -97,15 +95,18 @@ function evalCommand(input)
 			break;
 
 		case "echo":
-			args.shift();
+			args.shift(); // remove command from args[]
 			txt += "\n";
+
+			// iterate through the 'words'
 			args.forEach((arg) =>
 			{
-				if (arg.charAt(0) == "$") txt += String(window[arg.substr(1)]);
+				if (arg.charAt(0) == "$") txt += String(window[arg.substr(1)]); // replace $var with its value
 				else txt += arg;
 
 				txt += " ";
 			});
+
 			typeWriter();
 			break;
 
