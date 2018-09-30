@@ -83,9 +83,8 @@ function handleInput(event)
 
 		var term = $("#termText");
 		if (term.html() != "") term.append("\n");
-		term.append("# " + input.val() + "\n");
-
-
+		if (input.val() != "") term.append("# " + input.val() + "\n");
+		else term.append("#");
 
 		// process then clear input
 		evalCommand(input.val());
