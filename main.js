@@ -82,6 +82,15 @@ function handleInput(event)
 				location.reload(true);
 				break;
 
+			case "help":
+				txt += "\nThere is no help.";
+				typeWriter();
+				break;
+
+			case "source":
+				window.location.href = "https://github.com/ConnorDY/cdy-terminal";
+				break;
+
 			case "clear":
 				$("#termText").html("");
 				txt = "";
