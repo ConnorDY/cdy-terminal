@@ -1,6 +1,6 @@
-// settings
+// terminal settings
 var txt = "";
-var typeSpeed = 25;
+var typeSpeed = 20;
 var blinkSpeed = 300;
 var typePos = 0;
 var args = [];
@@ -8,6 +8,11 @@ var args = [];
 // 'environment' variables
 var WELCOME_MESSAGE = " \nWelcome to my terminal.\nPlease enjoy your stay.\n:^)\n ";
 var BOOT_COMMAND = "echo $WELCOME_MESSAGE";
+
+
+/*
+ * primary functions
+ */
 
 function init()
 {
@@ -75,7 +80,7 @@ function handleInput(event)
 
 		var term = $("#termText");
 		if (term.html() != "") term.append("\n");
-		term.append("# " + input.val());
+		term.append("# " + input.val() + "\n");
 
 
 
@@ -87,6 +92,11 @@ function handleInput(event)
 	handleTyping();
 }
 
+
+/*
+ * OS functions
+ */
+
 function evalCommand(input)
 {
 	args = input.split(" ");
@@ -94,8 +104,7 @@ function evalCommand(input)
 	// prevent users from running scripts outside  of the 'bin' directory
 	if (args[0].includes(".."))
 	{
-		txt += "\nPlease don't do that.";
-		typeWriter();
+		print("Please don't do that.");
 		return 0;
 	}
 
@@ -109,9 +118,26 @@ function evalCommand(input)
 			typeWriter();
 			break;
 
+		case "export":
+			if (args.length != 2)
+			{
+				print("Invalid syntax.");
+			}
+			else
+			{
+				if ((args[1].match(/=/g) || []).length != 1) print("Invalid syntax.");
+				else
+				{
+					var parts = args[1].split("=");
+					window[String(parts[0])] = parts[1];
+
+					print(String(parts[1]));
+				}
+			}
+			break;
+
 		case "echo":
 			args.shift(); // remove command from args[]
-			txt += "\n";
 
 			// iterate through the 'words'
 			args.forEach((arg) =>
@@ -126,7 +152,7 @@ function evalCommand(input)
 			break;
 
 		case "":
-			typeWriter();
+			print("");
 			break;
 
 		default:
@@ -135,10 +161,15 @@ function evalCommand(input)
 				loadedFunc(args);
 			}, () =>
 			{
-				txt += "\nCould not execute `" + args[0] + ".js` (Error 404: File not found)";
-				typeWriter();
+				print("Could not execute `" + args[0] + ".js` (Error 404: File not found)");
 			});
 	}
+}
+
+function print(p)
+{
+	txt += p;
+	typeWriter();
 }
 
 function bootFunc()

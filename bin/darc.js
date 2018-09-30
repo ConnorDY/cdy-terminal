@@ -1,5 +1,4 @@
 function loadedFunc(params)
 {
-	txt += "\nHe's pretty cool, I guess.";
-	typeWriter();
+	print("He's pretty cool, I guess.");
 }
