@@ -1,0 +1,101 @@
+@font-face
+{
+	font-family: "Pixel Operator";
+	src: url("./res/PixelOperatorMono.ttf")  format("truetype");
+}
+
+body
+{
+	background-color: #000000;
+	overflow: hidden;
+}
+
+#scanlines
+{
+	position: absolute;
+	top: 0px;
+	left: 0px;
+
+	width: 100%;
+	height: 100%;
+
+	background-image: url("./res/scanlines.png");
+	opacity: 0.25;
+}
+
+pre, #content
+{
+	line-height: 32px;
+	font-family: "Pixel Operator";
+	font-size: 32px;
+	color: #54FED9;
+	text-shadow: 0 0 5px #37B48A;
+}
+
+pre
+{
+	margin: 0;
+}
+
+pre:first-line
+{
+	line-height: 0;
+}
+
+#content
+{
+	position: absolute;
+	top: 8px;
+	left: 12px;
+
+	width: calc(100% - 32px);
+	height: calc(100% - 16px);
+	overflow: hidden;
+
+	opacity: 0.9;
+}
+
+#termText, #acceptInput, #userInput
+{
+	white-space: pre;
+	vertical-align: top;
+}
+
+#acceptInput
+{
+	display: none;
+}
+
+#blockChar
+{
+	width: 16px;
+	height: 32px;
+	background-color: #37B48A;
+	box-shadow: 0 0 5px #37B48A;
+	display: inline-block;
+}
+
+#textToDisplay
+{
+	display: none;
+}
+
+#vignette
+{
+	width: 100%;
+	height: 100%;
+
+	position: absolute;
+	top: 0px;
+	left: 0px;
+
+	box-shadow: inset 0 0 100px black;
+	pointer-events: none;
+}
+
+#capInput
+{
+	opacity: 0;
+	width: 0;
+	overflow: hidden;
+}
