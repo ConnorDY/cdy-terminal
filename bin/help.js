@@ -1,6 +1,6 @@
 var knownCommands = [
 	"help", "shutdown", "reboot",
-	"source"
+	"setcolor", "source"
 ];
 
 function loadedFunc(params)

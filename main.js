@@ -4,10 +4,15 @@ var typeSpeed = 20;
 var blinkSpeed = 300;
 var typePos = 0;
 var args = [];
+var executingCommand = false;
 
 // 'environment' variables
 var WELCOME_MESSAGE = " \nWelcome to my terminal.\nPlease enjoy your stay.\n:^)\n ";
-var BOOT_COMMAND = "echo $WELCOME_MESSAGE";
+
+var BOOT_COMMANDS = [
+	"setcolor 84 254 217",
+	"echo $WELCOME_MESSAGE"
+];
 
 
 /*
@@ -99,8 +104,20 @@ function handleInput(event)
  * OS functions
  */
 
-function evalCommand(input)
+function evalCommand(input, callback)
 {
+	var retry = () =>
+	{
+		evalCommand(input);
+	};
+
+	if (executingCommand)
+	{
+		setTimeout(retry, typeSpeed);
+		return 0;
+	}
+
+	// split command into args
 	args = input.split(" ");
 
 	// prevent users from running scripts outside  of the 'bin' directory
@@ -158,12 +175,17 @@ function evalCommand(input)
 			break;
 
 		default:
+			executingCommand = true;
 			$.loadScript("./bin/" + args[0] + ".js", () =>
 			{
 				loadedFunc(args);
+				executingCommand = false;
+				if (callback != null) callback();
 			}, () =>
 			{
 				print("Could not execute `" + args[0] + ".js` (Error 404: File not found)");
+				executingCommand = false;
+				if (callback != null) callback();
 			});
 	}
 }
@@ -181,8 +203,14 @@ function printBuffer(p)
 
 function bootFunc()
 {
-	printBuffer(BOOT_COMMAND + "\n");
-	evalCommand(BOOT_COMMAND);
+	printBuffer("Executing boot commands...\n");
+
+	BOOT_COMMANDS.forEach((command) =>
+	{
+		evalCommand(command, () => { printBuffer("\n") });
+	});
+
+	print("");
 }
 
 jQuery.loadScript = (url, callback, failed) =>
