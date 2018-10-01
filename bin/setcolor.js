@@ -2,7 +2,7 @@ function loadedFunc(params)
 {
 	if (params.length != 4)
 	{
-		print("Invalid syntax. Use `setcolor r g b`.");
+		print("Invalid syntax. Type `help setcolor` for help.");
 		return 0;
 	}
 
@@ -25,4 +25,12 @@ function loadedFunc(params)
 	$("#blockChar").css("box-shadow", "0 0 5px " + glowHex);
 
 	print("Terminal color set to " + mainHex + ".");
+}
+
+function printHelp()
+{
+	print(
+		"Usage: setcolor r g b\n" +
+		"r, g, and b should be numbers between 0 and 255."
+	);
 }

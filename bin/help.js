@@ -5,16 +5,45 @@ var knownCommands = [
 
 function loadedFunc(params)
 {
-	if (params[1] == "me") txt += "You're on your own."; 
+	if (params.length == 2)
+	{
+		switch (params[1])
+		{
+			case "me":
+				print("You're on your own.");
+				break;
+
+			case "help":
+				print("Seriously?");
+				break;
+
+			default:
+				executingCommand = true;
+				$.loadScript("./bin/" + params[1] + ".js", () =>
+				{
+					printHelp();
+					executingCommand = false;
+				}, () =>
+				{
+					print("There is no help for that command.");
+					executingCommand = false;
+				});
+		}
+	}
+	else if (params.length != 1)
+	{
+		print("Help you with what now?");
+	}
 	else
 	{
-		txt += "The following commands are available:\n";
+		printBuffer("The following commands are available:\n");
+
 		knownCommands.forEach((command, index) =>
 		{
-			txt += command;
-			if (index < knownCommands.length - 1) txt += ", ";
+			printBuffer(command);
+			if (index < knownCommands.length - 1) printBuffer(", ");
 		});
-	}
 
-	typeWriter();
+		print("");
+	}
 }
