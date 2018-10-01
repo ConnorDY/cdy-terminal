@@ -7,6 +7,13 @@
 body
 {
 	background-color: #000000;
+	color: #54FED9;
+
+	line-height: 32px;
+	font-family: "Pixel Operator";
+	font-size: 32px;
+	text-shadow: 0 0 5px #37B48A;
+
 	overflow: hidden;
 }
 
@@ -23,17 +30,9 @@ body
 	opacity: 0.25;
 }
 
-pre, #content
-{
-	line-height: 32px;
-	font-family: "Pixel Operator";
-	font-size: 32px;
-	color: #54FED9;
-	text-shadow: 0 0 5px #37B48A;
-}
-
 pre
 {
+	font-family: "Pixel Operator";
 	margin: 0;
 }
 
@@ -70,7 +69,7 @@ pre:first-line
 {
 	width: 16px;
 	height: 32px;
-	background-color: #37B48A;
+	background-color: #54FED9;
 	box-shadow: 0 0 5px #37B48A;
 	display: inline-block;
 }
