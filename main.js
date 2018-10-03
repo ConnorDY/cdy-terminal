@@ -7,6 +7,10 @@ var args = [];
 var executingCommand = false;
 var pad = "  ";
 var booting = true;
+var redirectingInput = false;
+var receiveInput = () => {};
+var defaultPrompt = "#";
+var prompt = defaultPrompt;
 
 // 'environment' variables
 var WELCOME_MESSAGE = "\nWelcome to my terminal.\nPlease enjoy your stay.\n:^)\n ";
@@ -125,15 +129,16 @@ function handleInput(event)
 
 		// hide input field then display the input
 		$("#acceptInput").css("display", "none");
-		$("#acceptInput").html("\n# ");
+		$("#acceptInput").html("\n"+prompt+" ");
 
 		var term = $("#termText");
 		if (term.html() != "") term.append("\n");
-		if (input.val() != "") term.append("# " + input.val() + "\n");
-		else term.append("#");
+		if (input.val() != "") term.append(prompt+" " + input.val() + "\n");
+		else term.append(prompt);
 
 		// process then clear input
-		evalCommand(input.val());
+		if (redirectingInput) receiveInput(input.val());
+		else evalCommand(input.val());
 		input.val("");
 	}
 
@@ -172,7 +177,7 @@ function evalCommand(input, callback)
 	{
 		case "clear":
 			$("#termText").html("");
-			$("#acceptInput").html("# ");
+			$("#acceptInput").html(prompt+" ");
 			txt = "";
 			typePos = 0;
 			typeWriter();
@@ -220,7 +225,7 @@ function evalCommand(input, callback)
 			executingCommand = true;
 			$.loadScript("./bin/" + args[0] + ".js", () =>
 			{
-				loadedFunc(args);
+				if (loadedFunc(args)) redirectingInput = true;
 				executingCommand = false;
 				if (callback != null) callback();
 			}, () =>
@@ -254,6 +259,17 @@ function bootFunc()
 	});
 
 	print("");
+}
+
+function setPrompt(p)
+{
+	prompt = p;
+	$("#acceptInput").html("\n"+prompt+" ");
+}
+
+function resetPrompt()
+{
+	setPrompt(defaultPrompt);
 }
 
 jQuery.loadScript = (url, callback, failed) =>
