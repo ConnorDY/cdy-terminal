@@ -30,17 +30,6 @@ body
 	opacity: 0.25;
 }
 
-pre
-{
-	font-family: "Pixel Operator";
-	margin: 0;
-}
-
-pre:first-line
-{
-	line-height: 0;
-}
-
 #content
 {
 	position: absolute;
@@ -52,6 +41,23 @@ pre:first-line
 	overflow: hidden;
 
 	opacity: 0.9;
+}
+
+pre
+{
+	font-family: "Pixel Operator";
+	margin: 0;
+}
+
+pre:first-line
+{
+	line-height: 0;
+}
+
+#logoSpacer
+{
+	width: 1px;
+	height: 12px;
 }
 
 #termText, #acceptInput, #userInput
