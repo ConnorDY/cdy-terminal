@@ -5,5 +5,5 @@ function loadedFunc(params)
 
 function printHelp()
 {
-	print("Usage: reboot\nReboots the terminal system.");
+	print(pad+"Usage: reboot\nReboots the terminal system.");
 }

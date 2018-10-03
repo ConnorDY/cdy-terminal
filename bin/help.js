@@ -10,11 +10,11 @@ function loadedFunc(params)
 		switch (params[1])
 		{
 			case "me":
-				print("You're on your own.");
+				print(pad+"You're on your own.");
 				break;
 
 			case "help":
-				print("Seriously?");
+				print(pad+"Seriously?");
 				break;
 
 			default:
@@ -25,18 +25,18 @@ function loadedFunc(params)
 					executingCommand = false;
 				}, () =>
 				{
-					print("There is no help for that command.");
+					print(pad+"There is no help for that command.");
 					executingCommand = false;
 				});
 		}
 	}
 	else if (params.length != 1)
 	{
-		print("Help you with what now?");
+		print(pad+"Help you with what now?");
 	}
 	else
 	{
-		printBuffer("The following commands are available:\n");
+		printBuffer(pad+"The following commands are available:\n"+pad);
 
 		knownCommands.forEach((command, index) =>
 		{

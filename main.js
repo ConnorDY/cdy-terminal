@@ -5,9 +5,11 @@ var blinkSpeed = 300;
 var typePos = 0;
 var args = [];
 var executingCommand = false;
+var pad = "  ";
+var booting = true;
 
 // 'environment' variables
-var WELCOME_MESSAGE = " \nWelcome to my terminal.\nPlease enjoy your stay.\n:^)\n ";
+var WELCOME_MESSAGE = "\nWelcome to my terminal.\nPlease enjoy your stay.\n:^)\n ";
 
 var BOOT_COMMANDS = [
 	"setcolor 84 254 217",
@@ -40,8 +42,47 @@ function typeWriter()
 
 	if (typePos < txt.length)
 	{
-		$("#termText").append(txt.charAt(typePos));
-		typePos++;
+		var term = $("#termText");
+		var html = term.html();
+		var char = txt.charAt(typePos);
+
+		if (char == "[")
+		{
+			// find first [block]
+			var searchStr = txt.substring(typePos);
+			var endPos = searchStr.indexOf("]");
+			var inner = searchStr.substring(1, endPos);
+
+			// add to buffer
+			var buff = "<" + inner + ">";
+
+			// find the inbetween stuff
+			searchStr = searchStr.substring(endPos+1);
+			endPos = searchStr.indexOf("[");
+			inner = searchStr.substring(0, endPos);
+
+			// add to buffer
+			buff += inner;
+
+			// find final [/block]
+			searchStr = searchStr.substring(endPos);
+			endPos = searchStr.indexOf("]");
+			inner = searchStr.substring(1, endPos);
+
+			// add to buffer
+			buff += "<" + inner + ">";
+			typePos += buff.length;
+
+			// write buffer
+			term.html(html + buff);
+
+		}
+		else
+		{
+			term.html(html + char);
+			typePos++;
+		}
+
 		setTimeout(typeWriter, typeSpeed);
 	}
 	else
@@ -123,7 +164,7 @@ function evalCommand(input, callback)
 	// prevent users from running scripts outside  of the 'bin' directory
 	if (args[0].includes(".."))
 	{
-		print("Please don't do that.");
+		print(pad+"Please don't do that.");
 		return 0;
 	}
 
@@ -140,28 +181,29 @@ function evalCommand(input, callback)
 		case "export":
 			if (args.length != 2)
 			{
-				print("Invalid syntax.");
+				print(pad+"Invalid syntax.");
 			}
 			else
 			{
-				if ((args[1].match(/=/g) || []).length != 1) print("Invalid syntax.");
+				if ((args[1].match(/=/g) || []).length != 1) print(pad+"Invalid syntax.");
 				else
 				{
 					var parts = args[1].split("=");
 					window[String(parts[0])] = parts[1];
 
-					print(String(parts[1]));
+					print(pad+String(parts[1]));
 				}
 			}
 			break;
 
 		case "echo":
 			args.shift(); // remove command from args[]
+			txt += pad;
 
 			// iterate through the 'words'
 			args.forEach((arg) =>
 			{
-				if (arg.charAt(0) == "$") txt += String(window[arg.substr(1)]); // replace $var with its value
+				if (arg.charAt(0) == "$") txt += String(window[arg.substring(1)]); // replace $var with its value
 				else txt += arg;
 
 				txt += " ";
@@ -183,7 +225,7 @@ function evalCommand(input, callback)
 				if (callback != null) callback();
 			}, () =>
 			{
-				print("Could not execute `" + args[0] + ".js` (Error 404: File not found)");
+				print(pad+"Could not execute `" + args[0] + ".js` (Error 404: File not found)");
 				executingCommand = false;
 				if (callback != null) callback();
 			});
@@ -207,7 +249,8 @@ function bootFunc()
 
 	BOOT_COMMANDS.forEach((command) =>
 	{
-		evalCommand(command, () => { printBuffer("\n") });
+		booting = true;
+		evalCommand(command, () => { printBuffer("\n"); booting = false; });
 	});
 
 	print("");

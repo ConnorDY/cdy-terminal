@@ -60,6 +60,17 @@ pre:first-line
 	vertical-align: top;
 }
 
+#termText *
+{
+	vertical-align: top;
+}
+
+#termText u
+{
+	text-decoration: none;
+	border-bottom: 2px solid currentColor;
+}
+
 #acceptInput
 {
 	display: none;
@@ -67,8 +78,11 @@ pre:first-line
 
 #blockChar
 {
+	position: relative;
+	top: 4px;
+
 	width: 16px;
-	height: 32px;
+	height: 24px;
 	background-color: #54FED9;
 	box-shadow: 0 0 5px #37B48A;
 	display: inline-block;

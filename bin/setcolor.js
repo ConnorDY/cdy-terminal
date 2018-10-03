@@ -2,7 +2,7 @@ function loadedFunc(params)
 {
 	if (params.length != 4)
 	{
-		print("Invalid syntax. Type `help setcolor` for help.");
+		print(pad+"Invalid syntax. Type `help setcolor` for help.");
 		return 0;
 	}
 
@@ -24,13 +24,14 @@ function loadedFunc(params)
 	$("#blockChar").css("background-color", mainHex);
 	$("#blockChar").css("box-shadow", "0 0 5px " + glowHex);
 
+	if (!booting) printBuffer(pad);
 	print("Terminal color set to " + mainHex + ".");
 }
 
 function printHelp()
 {
 	print(
-		"Usage: setcolor r g b\n" +
-		"r, g, and b should be numbers between 0 and 255."
+		pad+"Usage: setcolor [u]r[/u] [u]g[/u] [u]b[/u]\n" +
+		pad+"[u]r[/u], [u]g[/u], and [u]b[/u] should be numbers between 0 and 255."
 	);
 }

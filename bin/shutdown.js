@@ -1,9 +1,9 @@
 function loadedFunc(params)
 {
-	print("Shutdown failed.");
+	print(pad+"Shutdown failed.");
 }
 
 function printHelp()
 {
-	print("Usage: shutdown\nShuts down the terminal system.");
+	print(pad+"Usage: shutdown\nShuts down the terminal system.");
 }
