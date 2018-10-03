@@ -31,7 +31,7 @@ function loadedFunc(params)
 function printHelp()
 {
 	print(
-		pad+"Usage: setcolor [u]r[/u] [u]g[/u] [u]b[/u]\n" +
+		pad+"[b]Usage:[/b] setcolor [u]r[/u] [u]g[/u] [u]b[/u]\n" +
 		pad+"[u]r[/u], [u]g[/u], and [u]b[/u] should be numbers between 0 and 255."
 	);
 }

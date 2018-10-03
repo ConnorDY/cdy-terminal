@@ -5,5 +5,8 @@ function loadedFunc(params)
 
 function printHelp()
 {
-	print(pad+"Usage: shutdown\nShuts down the terminal system.");
+	print(
+		pad+"[b]Usage:[/b] shutdown\n"+
+		pad+"Shuts down the terminal system."
+	);
 }

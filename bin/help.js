@@ -40,7 +40,7 @@ function loadedFunc(params)
 
 		knownCommands.forEach((command, index) =>
 		{
-			printBuffer(command);
+			printBuffer("[u]"+command+"[/u]");
 			if (index < knownCommands.length - 1) printBuffer(", ");
 		});
 

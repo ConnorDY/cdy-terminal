@@ -5,5 +5,8 @@ function loadedFunc(params)
 
 function printHelp()
 {
-	print("Usage: source\nDisplays the source code for cdy-term.");
+	print(
+		pad+"[b]Usage:[/b] source\n"+
+		pad+"Displays the source code for cdy-term."
+	);
 }
